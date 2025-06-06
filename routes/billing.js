@@ -1,43 +1,26 @@
-// const express = require("express");
-// const router = express.Router();
-// const Billing = require("../models/Billing");
-
-// // GET /api/billing - fetch all billing entries with customer data
-// router.get("/", async (req, res) => {
-//     try {
-//         const billings = await Billing.find()
-//             .populate("customerId", "companyName customerName email mobile")
-//             .lean();
-
-//         res.json(billings);
-//     } catch (error) {
-//         res.status(500).json({ error: "Failed to fetch billing data", details: error.message });
-//     }
-// });
-
-
-// module.exports = router;
 
 
 const express = require("express");
 const router = express.Router();
 const Billing = require("../models/Billing");
+const Company = require("../models/Company");
 
-// GET /api/billing - fetch all billing entries with customer info
+// GET /api/billing - fetch all billing entries with company info
 router.get("/", async (req, res) => {
     try {
         const billings = await Billing.find()
-            .populate("customerId", "companyName customerName email mobile")
+            .populate("companyId", "companyName customerName email mobile") // Updated to "companyId"
             .lean();
 
-        // Flatten the billing data to simplify frontend mapping
-        const formatted = billings.map(b => {
-            return {
-                _id: b._id,
-                companyName: b.customerId?.companyName || "Unknown",
-                services: b.services || []
-            };
-        });
+        // Format for frontend
+        const formatted = billings.map(b => ({
+            _id: b._id,
+            companyName: b.companyId?.companyName || "Unknown",
+            customerName: b.companyId?.customerName || "Unknown",
+            email: b.companyId?.email || "",
+            mobile: b.companyId?.mobile || "",
+            services: b.services || []
+        }));
 
         res.json(formatted);
     } catch (error) {

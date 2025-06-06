@@ -1,28 +1,8 @@
-// const mongoose = require("mongoose");
-
-// const BillingSchema = new mongoose.Schema({
-//     customerId: {
-//         type: mongoose.Schema.Types.ObjectId,
-//         ref: "SalesForm",
-//         required: true,
-//     },
-//     billingInstruction: String, // Monthly, Quarterly, etc.
-//     totalCost: Number,
-//     nextBillingDate: Date,
-//     status: {
-//         type: String,
-//         enum: ["Pending", "Paid"],
-//         default: "Pending"
-//     },
-//     invoiceNumber: String,
-//     notes: String
-// }, { timestamps: true });
-
-// module.exports = mongoose.model("Billing", BillingSchema);
 
 
 // const mongoose = require("mongoose");
 
+// // Sub-schema for each service entry
 // const BillingEntrySchema = new mongoose.Schema({
 //     serviceName: String,
 //     billingInstruction: String, // Monthly, Quarterly, etc.
@@ -35,8 +15,9 @@
 //     },
 //     invoiceNumber: String,
 //     notes: String
-// }, { _id: false });
+// }, { _id: false }); // Disable _id for subdocuments
 
+// // Main billing schema
 // const BillingSchema = new mongoose.Schema({
 //     customerId: {
 //         type: mongoose.Schema.Types.ObjectId,
@@ -68,9 +49,9 @@ const BillingEntrySchema = new mongoose.Schema({
 
 // Main billing schema
 const BillingSchema = new mongoose.Schema({
-    customerId: {
+    companyId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "SalesForm",
+        ref: "Company",
         required: true,
     },
     services: [BillingEntrySchema]

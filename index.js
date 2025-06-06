@@ -17,6 +17,10 @@ mongoose.connect(process.env.MONGO_URI, {
 // Routes
 app.use("/api/sales", require("./routes/sales"));
 app.use("/api/billing", require("./routes/billing"));
+app.use("/api/company", require("./routes/company")); // ✅ New route
+
+const serviceDetailsRoutes = require("./routes/serviceDetails");
+app.use("/api/service-details", serviceDetailsRoutes);
 
 
 const PORT = process.env.PORT || 5000;

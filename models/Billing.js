@@ -1,60 +1,31 @@
-
-
-// const mongoose = require("mongoose");
-
-// // Sub-schema for each service entry
-// const BillingEntrySchema = new mongoose.Schema({
-//     serviceName: String,
-//     billingInstruction: String, // Monthly, Quarterly, etc.
-//     cost: Number,
-//     nextBillingDate: Date,
-//     status: {
-//         type: String,
-//         enum: ["Pending", "Paid"],
-//         default: "Pending"
-//     },
-//     invoiceNumber: String,
-//     notes: String
-// }, { _id: false }); // Disable _id for subdocuments
-
-// // Main billing schema
-// const BillingSchema = new mongoose.Schema({
-//     customerId: {
-//         type: mongoose.Schema.Types.ObjectId,
-//         ref: "SalesForm",
-//         required: true,
-//     },
-//     services: [BillingEntrySchema]
-// }, { timestamps: true });
-
-// module.exports = mongoose.model("Billing", BillingSchema);
-
-
 const mongoose = require("mongoose");
 
-// Sub-schema for each service entry
-const BillingEntrySchema = new mongoose.Schema({
+const billingServiceSchema = new mongoose.Schema({
     serviceName: String,
-    billingInstruction: String, // Monthly, Quarterly, etc.
-    cost: Number,
+    costPrice: Number,
+    sellingPrice: Number,
+    billingInstruction: String,
+    cost: Number, // yearly cost
     nextBillingDate: Date,
     status: {
         type: String,
-        enum: ["Pending", "Paid"],
         default: "Pending"
     },
     invoiceNumber: String,
     notes: String
-}, { _id: false }); // Disable _id for subdocuments
+});
 
-// Main billing schema
-const BillingSchema = new mongoose.Schema({
+const billingSchema = new mongoose.Schema({
     companyId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Company",
-        required: true,
+        required: true
     },
-    services: [BillingEntrySchema]
-}, { timestamps: true });
+    services: [billingServiceSchema],
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
+});
 
-module.exports = mongoose.model("Billing", BillingSchema);
+module.exports = mongoose.model("Billing", billingSchema);

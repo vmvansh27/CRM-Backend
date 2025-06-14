@@ -1,27 +1,30 @@
-
-
-
 const mongoose = require("mongoose");
 
-const ServiceSchema = new mongoose.Schema({
+const serviceSchema = new mongoose.Schema({
     serviceName: String,
-    cost: Number,
+    costPrice: Number,
+    sellingPrice: Number,
     billingInstruction: String,
-    billingDate: String, // Start billing date (used to compute nextBillingDate)
+    billingDate: Date
 });
 
-const SalesFormSchema = new mongoose.Schema({
+const salesFormSchema = new mongoose.Schema({
     companyId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Company",
-        required: true,
+        required: true
     },
-    services: [ServiceSchema],
-    yearlyCost: String,
+    referenceSource: String,
+    services: [serviceSchema],
+    yearlyCost: Number,
     serviceCommitments: String,
     demoStatus: String,
     backup: String,
     filledBy: String,
-}, { timestamps: true });
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
+});
 
-module.exports = mongoose.model("SalesForm", SalesFormSchema);
+module.exports = mongoose.model("SalesForm", salesFormSchema);

@@ -46,6 +46,7 @@ const billingServiceSchema = new mongoose.Schema({
     totalSellingPrice: Number, // total for this period
     nextBillingDate: Date,
     status: { type: String, default: 'Pending' },
+    billingNumber: String,
     invoiceNumber: String,
     notes: String,
     paymentHistory: [

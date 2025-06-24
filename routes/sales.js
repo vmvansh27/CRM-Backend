@@ -80,7 +80,8 @@ router.post("/", async (req, res) => {
             billingInstruction: service.billingInstruction,
             cost: parseFloat(service.sellingPrice) * 12 || 0,
             installment: calculateInstallment(parseFloat(service.sellingPrice), service.billingInstruction),
-            nextBillingDate: calculateNextBillingDate(service.billingInstruction, service.billingDate),
+            // nextBillingDate: calculateNextBillingDate(service.billingInstruction, service.billingDate),
+            nextBillingDate: new Date(service.billingDate),
             status: "Pending",
             invoiceNumber: `INV-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
             notes: ""
